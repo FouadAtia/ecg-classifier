@@ -1,0 +1,16 @@
+# Python stuff
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+ecg_env/
+
+# Data and Models (Too big for GitHub)
+data/
+models/*.pkl
+models/*.png
+temp_ecg.png
+
+# OS stuff
+.DS_Store
