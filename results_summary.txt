@@ -1,0 +1,49 @@
+🚀 Step 1: Loading data and preprocessing images...
+Scanning directory: data/...
+Processing folder: ECG Images of Myocardial Infarction Patients (240x12=2880) (Label: 0)
+Processing folder: ECG Images of Patient that have History of MI (172x12=2064) (Label: 1)
+Processing folder: ECG Images of Patient that have abnormal heartbeat (233x12=2796) (Label: 2)
+Processing folder: Normal Person ECG Images (284x12=3408) (Label: 3)
+🧠 Step 2: Extracting deep features via MobileNetV2...
+Loading pre-trained PyTorch MobileNetV2 model...
+Feature Extractor ready.
+Extracting features for 928 images...
+
+🔎 Step 3: Feature Selection Comparison (Heuristic Requirements)...
+Starting Heuristic Forward Search (Target: 100 features)...
+Added feature 795. New Accuracy: 0.7372
+Added feature 255. New Accuracy: 0.7628
+Added feature 1117. New Accuracy: 0.7736
+Added feature 494. New Accuracy: 0.7884
+Added feature 1212. New Accuracy: 0.7965
+Added feature 1122. New Accuracy: 0.7992
+Added feature 1164. New Accuracy: 0.8046
+Added feature 1024. New Accuracy: 0.8181
+No further improvement. Stopping search.
+
+🏆 Step 4: Ensemble Tournament (Evaluating Bases, Voting, & Stacking)...
+--- Individual Base Model Performance ---
+RF Accuracy: 0.9516
+SVM Accuracy: 0.8495
+GB Accuracy: 0.9409
+Ensemble [Hard Voting] Accuracy: 0.9409
+Ensemble [Soft Voting] Accuracy: 0.9462
+Ensemble [Stacking] Accuracy: 0.9624
+
+✅ Tournament Winner: Stacking
+
+========================================
+📈 FINAL COMPARISON DATA FOR REPORT
+========================================
+Search Type | Features Selected | Base Accuracy (Avg)
+Genetic Alg | 651.0             | 0.9140
+Heuristic   | 8.0               | (Tested via SFS logic)
+----------------------------------------
+Ensemble Performance Ranking:
+ - Stacking       : 96.24%
+ - rf             : 95.16%
+ - Soft Voting    : 94.62%
+ - gb             : 94.09%
+ - Hard Voting    : 94.09%
+ - svm            : 84.95%
+========================================

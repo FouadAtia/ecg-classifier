@@ -8,13 +8,13 @@ import streamlit as st
 import numpy as np
 import torch
 import joblib
-import cv2
+import cv2 
 from PIL import Image
 
 # Import our backend modules
 from src.ingestion import preprocess_ecg_image
 from src.features import ECGFeatureExtractor
-
+from src.reasoning import ExplanationEngine
 # Force Torch DLL fix
 import torch
 
@@ -69,14 +69,25 @@ try:
             prediction = ensemble.predict(optimized_features)[0]
             probabilities = ensemble.predict_proba(optimized_features)[0]
             
-            # 6. Results
+            # --- NEW: 6. Reasoning Layer ---
+            explainer = ExplanationEngine(class_names)
+            explanation_text, action_text = explainer.generate_explanation(prediction, probabilities)
+
+            # 7. Results
             st.subheader(f"Diagnosis: **{class_names[prediction]}**")
             
-            # Show confidence bars
+            ## Show confidence bars
             st.write("### Confidence Levels:")
             for i, prob in enumerate(probabilities):
                 st.write(f"{class_names[i]}")
                 st.progress(float(prob))
 
+            # --- NEW: Display the Logic ---
+            st.write("---")
+            st.subheader("🧠 AI Reasoning & Logic")
+            st.info(explanation_text)
+            if action_text:
+                st.warning(action_text)
+                
 except FileNotFoundError:
     st.error("Model files not found! Please run main_pipeline.py first to train and save the model.")
